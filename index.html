@@ -1,1 +1,233 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mənim Serverless Forumum</title>
+    <style>
+        :root {
+            --bg-color: #121214;
+            --card-color: #1a1a1e;
+            --text-color: #e1e1e6;
+            --accent-color: #00adb5;
+            --danger-color: #ff4757;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--card-color);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button.delete-btn {
+            background-color: var(--danger-color);
+            padding: 5px 10px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .forum-card {
+            background-color: var(--card-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-color);
+            position: relative;
+        }
+        .form-group {
+            background-color: var(--card-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #252529;
+            border: 1px solid #38383d;
+            color: #fff;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .hidden { display: none !important; }
+        .admin-badge {
+            background: gold;
+            color: #000;
+            padding: 2px 6px;
+            font-size: 11px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
 
+<div class="container">
+    <header>
+        <h1>🚀 Mini Forum</h1>
+        <div id="auth-section">
+            <button id="login-btn" onclick="login()">Google ilə Giriş Et</button>
+            <span id="user-info" class="hidden"></span>
+            <button id="logout-btn" class="hidden" onclick="logout()">Çıxış</button>
+        </div>
+    </header>
+
+    <div id="post-form-container" class="form-group hidden">
+        <h3>Yeni Mövzu Aç</h3>
+        <input type="text" id="post-title" placeholder="Mövzu başlığı...">
+        <textarea id="post-content" rows="4" placeholder="Müzakirə ediləcək mövzu haqqında yazın..."></textarea>
+        <button onclick="createPost()">Paylaş</button>
+    </div>
+
+    <div id="forum-posts">
+        <p>Yüklənir...</p>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // FIXME: Bura öz Firebase Layihə konfiqurasiyanı yapışdır!
+  
+const firebaseConfig = {
+  apiKey: "AIzaSyCZKZFfWsgpABjerVezvxKvyQsGh_RE4P0",
+  authDomain: "forum-66bf1.firebaseapp.com",
+  databaseURL: "https://forum-66bf1-default-rtdb.firebaseio.com",
+  projectId: "forum-66bf1",
+  storageBucket: "forum-66bf1.firebasestorage.app",
+  messagingSenderId: "534324687588",
+  appId: "1:534324687588:web:7667bfa282a4719191f2f1"
+};
+    // Firebase-i başlatmaq
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    // !!! BURAYA ÖZ E-MAİL ÜNVANINI YAZ !!!
+    // Bu mail ilə daxil olan istifadəçi saytda admin olacaq və silmə düyməsini görəcək.
+    const ADMIN_EMAIL = "myservertutorialaz@gmail.com"; 
+    let currentUser = null;
+
+    // Giriş / Çıxış Funksiyaları window obyektinə bağlanır ki, HTML-dən çağırıla bilsin
+    window.login = () => signInWithPopup(auth, provider);
+    window.logout = () => signOut(auth);
+
+    // İstifadəçi Vəziyyətini İzləmək
+    onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+        const loginBtn = document.getElementById('login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const userInfo = document.getElementById('user-info');
+        const postForm = document.getElementById('post-form-container');
+
+        if (user) {
+            loginBtn.classList.add('hidden');
+            logoutBtn.classList.remove('hidden');
+            userInfo.classList.remove('hidden');
+            userInfo.innerHTML = `Salam, ${user.displayName} ${user.email === ADMIN_EMAIL ? '<span class="admin-badge">Admin</span>' : ''}`;
+            postForm.classList.remove('hidden');
+        } else {
+            loginBtn.classList.remove('hidden');
+            logoutBtn.classList.add('hidden');
+            userInfo.classList.add('hidden');
+            postForm.classList.add('hidden');
+        }
+        loadPosts();
+    });
+
+    // Post Paylaşmaq
+    window.createPost = async () => {
+        const title = document.getElementById('post-title').value.trim();
+        const content = document.getElementById('post-content').value.trim();
+
+        if(!title || !content) return alert("Bütün sahələri doldurun!");
+
+        try {
+            await addDoc(collection(db, "posts"), {
+                title: title,
+                content: content,
+                author: currentUser.displayName,
+                email: currentUser.email,
+                createdAt: new Date()
+            });
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-content').value = '';
+            loadPosts();
+        } catch (error) {
+            console.error("Xəta baş verdi: ", error);
+        }
+    };
+
+    // Postları Yükləmək və Adminlik Yoxlanışı
+    async function loadPosts() {
+        const postsContainer = document.getElementById('forum-posts');
+        postsContainer.innerHTML = '';
+        
+        try {
+            const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+            const querySnapshot = await getDocs(q);
+            
+            if(querySnapshot.empty) {
+                postsContainer.innerHTML = '<p>Hələ heç bir mövzu açılmayıb.</p>';
+                return;
+            }
+
+            querySnapshot.forEach((docSnap) => {
+                const post = docSnap.data();
+                const postId = docSnap.id;
+                
+                // Admin yoxlanışı: Daxil olan şəxs admindirsə və ya postun sahibidirsə silə bilsin
+                const isAdmin = currentUser && currentUser.email === ADMIN_EMAIL;
+                const isOwner = currentUser && currentUser.email === post.email;
+
+                const card = document.createElement('div');
+                card.className = 'forum-card';
+                card.innerHTML = `
+                    <h2>${post.title}</h2>
+                    <p>${post.content}</p>
+                    <small>Paylaşdı: <b>${post.author}</b></small>
+                    ${(isAdmin || isOwner) ? `<br><button class="delete-btn" onclick="deletePost('${postId}')">Mövzunu Sil</button>` : ''}
+                `;
+                postsContainer.appendChild(card);
+            });
+        } catch (error) {
+            postsContainer.innerHTML = '<p>Məlumatları yükləyərkən xəta yarandı.</p>';
+            console.error(error);
+        }
+    }
+
+    // Post Silmək (Həm admin üçün, həm də istifadəçinin özü üçün)
+    window.deletePost = async (id) => {
+        if(confirm("Bu mövzunu silmək istədiyinizdən əminsiniz?")) {
+            await deleteDoc(doc(db, "posts", id));
+            loadPosts();
+        }
+    };
+</script>
+</body>
+</html>
