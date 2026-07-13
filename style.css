@@ -1,4 +1,4 @@
-/* Custom Modern Developer Forum Theme */
+/* GitHub & Vercel Style Minimalist Forum Theme */
 body { 
     background-color: #0d1117; 
     color: #c9d1d9; 
@@ -8,7 +8,6 @@ body {
     padding: 0;
 }
 
-/* Forum Kartları və Qutuları */
 .forum-box { 
     background-color: #161b22; 
     border: 1px solid #30363d; 
@@ -28,14 +27,13 @@ body {
     background-color: #161b22; 
     border: 1px solid #30363d; 
     border-radius: 6px;
-    transition: border-color 0.2s, transform 0.1s;
+    transition: border-color 0.2s;
 }
 
 .forum-card-row:hover {
     border-color: #58a6ff;
 }
 
-/* Düymələr (Classic Tech Style) */
 .btn-primary { 
     background-color: #238636; 
     border: 1px solid rgba(240, 246, 252, 0.1); 
@@ -63,7 +61,6 @@ body {
     color: #ffffff;
 }
 
-/* Giriş elementləri */
 .form-input-classic { 
     background-color: #0d1117; 
     border: 1px solid #30363d; 
@@ -81,7 +78,6 @@ body {
     box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
 }
 
-/* Teqlər və Kateqoriya Nişanları */
 .tag-badge {
     background-color: #21262d;
     color: #58a6ff;
@@ -99,13 +95,4 @@ body {
     border-radius: 4px;
     font-size: 11px;
     font-weight: 600;
-}
-
-.mention { 
-    background-color: rgba(248, 81, 73, 0.15); 
-    color: #ff7b72; 
-    padding: 2px 4px; 
-    font-weight: 600; 
-    border-radius: 4px;
-    font-size: 13px;
 }
