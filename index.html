@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azərbaycan Self-Hosting Forumu - Müstəqil Server Dünyası</title>
-    <meta name="description" content="Azərbaycanda fərdi server idarəçiliyi, Linux ev serverləri konfiqurasiyası və açıq mənbəli proqram təminatı forumu.">
-    <meta name="keywords" content="self-host, linux, server, docker, hosting, azərbaycan server, ev serveri">
+    <title>Azərbaycan Self-Hosting Forumu</title>
+    <meta name="description" content="Azərbaycanda Linux ev serverləri, docker və fərdi infrastruktur nizamnaməsi icması.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body class="p-4 md:p-6">
 
@@ -18,7 +18,7 @@
         <div class="flex justify-between items-center flex-wrap gap-4">
             <div>
                 <h1 class="text-xl md:text-2xl font-bold text-[#f0f6fc] flex items-center gap-2">
-                    <i class="fa-solid fa-server text-[#58a6ff]"></i> SelfHost.az Forumu
+                    <a href="#home" class="flex items-center gap-2"><i class="fa-solid fa-server text-[#58a6ff]"></i> SelfHost.az Forumu</a>
                 </h1>
                 <p class="text-xs text-[#8b949e] mt-1">Fərdi server idarəçiliyi və müstəqil infrastruktur icması</p>
             </div>
@@ -26,14 +26,11 @@
             <div id="forum-user-panel" class="text-xs bg-[#0d1117] p-3 border border-[#30363d] rounded-md min-w-[280px]">
                 <div id="guest-panel" class="text-[#8b949e] leading-relaxed">
                     Xoş gəldiniz, <strong class="text-[#f0f6fc]">Qonaq</strong>.<br>
-                    Lütfən <a href="#" onclick="toggleAuthModal('login')" class="text-[#58a6ff] hover:underline font-medium">Giriş edin</a> və ya <a href="#" onclick="toggleAuthModal('register')" class="text-[#58a6ff] hover:underline font-medium">Qeydiyyatdan keçin</a>.
+                    Lütfən <a href="#" onclick="toggleAuthModal('login')" class="text-[#58a6ff] hover:underline font-medium">Giriş edin</a>.
                 </div>
                 <div id="user-panel" class="hidden space-y-2">
                     <div class="flex justify-between items-center">
-                        <div>
-                            <span class="text-[#8b949e] block text-[11px]">İstifadəçi:</span>
-                            <strong id="p-username" class="text-[#58a6ff] font-semibold text-sm"></strong> 
-                        </div>
+                        <div><strong id="p-username" class="text-[#58a6ff] font-semibold text-sm"></strong></div>
                         <button onclick="logout()" class="text-[#ff7b72] hover:underline text-xs font-medium">[Çıxış]</button>
                     </div>
                     <div class="pt-2 border-t border-[#30363d] flex flex-col gap-1.5">
@@ -45,123 +42,115 @@
         </div>
         
         <div class="pt-3 border-t border-[#30363d] flex flex-wrap gap-4 text-xs font-medium text-[#8b949e]">
-            <a href="#" onclick="switchTab('forum')" class="hover:text-[#f0f6fc] flex items-center gap-1.5 transition"><i class="fa-solid fa-home"></i> Forum Ana Səhifə</a>
-            <a href="#" onclick="switchTab('about')" class="hover:text-[#f0f6fc] flex items-center gap-1.5 transition"><i class="fa-solid fa-info-circle"></i> Haqqımızda</a>
-            <a id="admin-panel-btn" href="#" onclick="switchTab('admin')" class="hidden text-[#d29922] hover:text-[#ecb22e] flex items-center gap-1.5 transition"><i class="fa-solid fa-shield text-xs"></i> Admin Paneli</a>
+            <a href="#home" class="hover:text-[#f0f6fc] flex items-center gap-1.5 transition"><i class="fa-solid fa-home"></i> Forum Ana Səhifə</a>
+            <a href="#about" class="hover:text-[#f0f6fc] flex items-center gap-1.5 transition"><i class="fa-solid fa-info-circle"></i> Haqqımızda</a>
+            <a id="admin-panel-btn" href="#admin" class="hidden text-[#d29922] hover:text-[#ecb22e] flex items-center gap-1.5 transition"><i class="fa-solid fa-shield text-xs"></i> Admin Paneli</a>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
         
-        <div class="lg:col-span-1 space-y-4">
+        <div id="sidebar-panel" class="lg:col-span-1 space-y-4">
             <div id="post-form-container" class="hidden forum-box space-y-3">
-                <div class="font-semibold text-sm text-[#f0f6fc] flex items-center gap-2 pb-2 border-b border-[#30363d]">
-                    <i class="fa-solid fa-pen-to-square"></i> Yeni Mövzu Başlat
-                </div>
+                <div class="font-semibold text-sm text-[#f0f6fc] pb-2 border-b border-[#30363d]"><i class="fa-solid fa-pen-to-square"></i> Yeni Mövzu</div>
                 <div class="space-y-3">
                     <div>
-                        <label class="block text-xs font-medium text-[#8b949e] mb-1">Kateqoriya Seçin:</label>
+                        <label class="block text-xs text-[#8b949e] mb-1">Kateqoriya:</label>
                         <select id="post-category" class="form-input-classic bg-[#0d1117]"></select>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-[#8b949e] mb-1">Mövzu Başlığı:</label>
-                        <input type="text" id="post-title" class="form-input-classic" placeholder="Örnək: Docker Compose qurulması">
+                        <label class="block text-xs text-[#8b949e] mb-1">Mövzu Başlığı:</label>
+                        <input type="text" id="post-title" class="form-input-classic" placeholder="Başlıq yazın...">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-[#8b949e] mb-1">Məzmun:</label>
-                        <textarea id="post-content" rows="4" class="form-input-classic resize-none" placeholder="Mövzu mətni..."></textarea>
+                        <label class="block text-xs text-[#8b949e] mb-1">Məzmun:</label>
+                        <textarea id="post-content" rows="4" class="form-input-classic resize-none" placeholder="Məzmun..."></textarea>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-[#8b949e] mb-1">Teqlər (Vergüllə ayırın):</label>
-                        <input type="text" id="post-tags" class="form-input-classic" placeholder="docker, ubuntu, selfhost">
+                        <label class="block text-xs text-[#8b949e] mb-1">Teqlər (Vergüllə ayırın):</label>
+                        <input type="text" id="post-tags" class="form-input-classic" placeholder="docker, linux, server">
                     </div>
-                    <button onclick="createPost()" class="w-full btn-primary py-2 text-sm">Mövzunu Paylaş</button>
+                    <button onclick="createPost()" class="w-full btn-primary py-2 text-sm">Paylaş</button>
                 </div>
             </div>
-            
             <div id="login-alert-container" class="forum-box text-center p-4">
-                <p class="text-xs text-[#8b949e] mb-2">Müzakirələrə qoşulmaq və mövzu açmaq üçün daxil olun.</p>
-                <button onclick="toggleAuthModal('login')" class="w-full btn-primary py-1.5 text-xs">Giriş / Qeydiyyat</button>
+                <p class="text-xs text-[#8b949e]">Mövzu açmaq və cavab yazmaq üçün daxil olun.</p>
             </div>
         </div>
 
         <div class="lg:col-span-3">
-            <div id="tab-forum" class="tab-content space-y-4">
+            
+            <div id="view-home" class="router-view space-y-4">
                 <div class="forum-header-bar font-semibold text-sm flex justify-between items-center shadow-sm">
-                    <span class="flex items-center gap-2 text-[#f0f6fc]"><i class="fa-solid fa-comments text-[#58a6ff]"></i> Canlı Müzakirələr</span>
+                    <span class="text-[#f0f6fc]"><i class="fa-solid fa-comments text-[#58a6ff]"></i> Canlı Müzakirələr</span>
                 </div>
                 <div id="forum-posts" class="space-y-3"></div>
             </div>
 
-            <div id="tab-about" class="tab-content hidden forum-box">
-                <h2 class="font-semibold text-base text-[#f0f6fc] mb-3 pb-2 border-b border-[#30363d]">SelfHost.az Layihəsi Haqqında</h2>
-                <p class="leading-relaxed text-sm text-[#c9d1d9]">
-                    Bu icma Azərbaycanda fərdi lokal şəbəkələrin qurulması və bulud asılılığı olmadan açıq mənbəli proqram təminatlarının host edilməsi məqsədilə yaradılmışdır.
-                </p>
+            <div id="view-single-post" class="router-view hidden space-y-4">
+                <button onclick="window.location.hash='#home'" class="text-xs text-[#58a6ff] hover:underline mb-2"><i class="fa-solid fa-arrow-left"></i> Geriyə, siyahıya qayıt</button>
+                <div id="single-post-container"></div>
             </div>
 
-            <div id="tab-admin" class="tab-content hidden space-y-4">
-                <div class="forum-box border-[#d29922]">
-                    <h3 class="font-semibold text-base text-[#d29922] mb-3 pb-2 border-b border-[#30363d]"><i class="fa-solid fa-folder-plus"></i> Kateqoriya Meneceri (Admin Only)</h3>
-                    <div class="flex gap-2">
-                        <input type="text" id="new-cat-name" placeholder="Yeni kateqoriya adı (örnək: Ev Serverləri)" class="form-input-classic">
-                        <button onclick="adminCreateCategory()" class="btn-primary px-4 text-xs whitespace-nowrap">Əlavə Et</button>
-                    </div>
-                    <div id="admin-categories-list" class="mt-3 flex flex-wrap gap-2"></div>
-                </div>
+            <div id="view-about" class="router-view hidden forum-box">
+                <h2 class="font-semibold text-base text-[#f0f6fc] mb-2">SelfHost.az Layihəsi Haqqında</h2>
+                <p class="text-sm text-[#c9d1d9]">Bu icma fərdi server idarəçiliyi üçün qurulmuş açıq forumdur.</p>
+            </div>
 
-                <div class="forum-box border-[#f85149]">
-                    <h3 class="font-semibold text-base text-[#ff7b72] mb-3 pb-2 border-b border-[#30363d]"><i class="fa-solid fa-users-gear"></i> İstifadəçiləri İdarə Et və Sil (Admin Only)</h3>
-                    <div class="flex gap-2 mb-3">
-                        <input type="text" id="admin-search-uid" placeholder="Silmək istədiyiniz istifadəçinin UID-si" class="form-input-classic">
-                        <input type="text" id="admin-search-username" placeholder="İstifadəçi adı (boşluqsuz)" class="form-input-classic">
-                        <button onclick="adminDeleteTargetUser()" class="btn-danger px-4 text-xs whitespace-nowrap">İstifadəçini Tam Sil</button>
+            <div id="view-admin" class="router-view hidden space-y-4">
+                <div class="forum-box border-[#d29922]">
+                    <h3 class="text-sm font-semibold text-[#d29922] mb-2">Kateqoriya Meneceri</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="new-cat-name" placeholder="Yeni kateqoriya" class="form-input-classic">
+                        <button onclick="adminCreateCategory()" class="btn-primary px-4 text-xs">Əlavə Et</button>
                     </div>
-                    <p class="text-[11px] text-[#8b949e]">Qeyd: Admin tərəfindən silinən istifadəçinin həm profili, həm də rezerv etdiyi istifadəçi adı verilənlər bazasından təmizlənir.</p>
+                    <div id="admin-categories-list" class="mt-2 flex flex-wrap gap-2"></div>
                 </div>
-                
                 <div class="forum-box border-[#f85149]">
-                    <div class="font-semibold text-sm text-[#ff7b72] mb-2"><i class="fa-solid fa-circle-exclamation"></i> Şikayətlər</div>
+                    <h3 class="text-sm font-semibold text-[#ff7b72] mb-2">İstifadəçini Verilənlər Bazası Səviyyəsində Sil</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="admin-search-uid" placeholder="İstifadəçi UID-si" class="form-input-classic">
+                        <input type="text" id="admin-search-username" placeholder="İstifadəçi adı" class="form-input-classic">
+                        <button onclick="adminDeleteTargetUser()" class="btn-danger px-4 text-xs">Tam Sil</button>
+                    </div>
+                </div>
+                <div class="forum-box border-[#f85149]">
+                    <div class="text-sm font-semibold text-[#ff7b72] mb-2">Şikayətlər</div>
                     <div id="reports-container" class="space-y-2"></div>
                 </div>
             </div>
+
         </div>
     </main>
 
     <div id="profile-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
         <div class="forum-box w-full max-w-sm relative">
-            <button onclick="toggleProfileModal()" class="absolute top-3 right-3 text-[#8b949e] hover:text-[#f0f6fc] text-xs">[X]</button>
-            <h3 class="text-sm font-semibold text-[#f0f6fc] mb-3 border-b border-[#30363d] pb-2">Profili Yenilə</h3>
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="block mb-1 text-[#8b949e]">Yeni İstifadəçi Adı (Boşluqsuz):</label>
-                    <input type="text" id="new-username-input" class="form-input-classic" placeholder="yeni_ad">
-                </div>
-                <button onclick="changeUsername()" class="w-full btn-primary py-2 text-xs font-semibold">İstifadəçi Adını Dəyiş</button>
-            </div>
+            <button onclick="toggleProfileModal()" class="absolute top-3 right-3 text-[#8b949e] text-xs">[X]</button>
+            <h3 class="text-sm font-semibold text-[#f0f6fc] mb-3">Profili Yenilə</h3>
+            <input type="text" id="new-username-input" class="form-input-classic text-xs" placeholder="yeni_istifadeci_adi">
+            <button onclick="changeUsername()" class="w-full btn-primary py-2 text-xs font-semibold mt-3">Yadda Saxla</button>
         </div>
     </div>
 
     <div id="auth-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
         <div class="forum-box w-full max-w-sm relative">
-            <button onclick="closeAuthModal()" class="absolute top-3 right-3 text-[#8b949e] hover:text-[#f0f6fc] text-xs">[X]</button>
+            <button onclick="closeAuthModal()" class="absolute top-3 right-3 text-[#8b949e] text-xs">[X]</button>
             <div class="flex border-b border-[#30363d] mb-4 text-xs font-semibold gap-1">
-                <button id="tab-btn-login" onclick="switchAuthSubTab('login')" class="flex-1 py-2 text-center forum-header-bar rounded-t-md">Giriş Et</button>
-                <button id="tab-btn-register" onclick="switchAuthSubTab('register')" class="flex-1 py-2 text-center bg-transparent text-[#8b949e]">Yeni Hesab</button>
+                <button id="tab-btn-login" onclick="switchAuthSubTab('login')" class="flex-1 py-2 text-center forum-header-bar rounded-t-md">Giriş</button>
+                <button id="tab-btn-register" onclick="switchAuthSubTab('register')" class="flex-1 py-2 text-center bg-transparent text-[#8b949e]">Qeydiyyat</button>
             </div>
             <div id="subtab-login" class="space-y-3 text-xs">
                 <input type="email" id="login-email" placeholder="E-mail" class="form-input-classic">
                 <input type="password" id="login-password" placeholder="Şifrə" class="form-input-classic">
-                <button onclick="loginWithEmail()" class="w-full btn-primary py-2 font-semibold">Daxil Ol</button>
-                <div class="flex items-center my-2 text-[#8b949e] text-[10px] before:flex-1 before:border-t before:border-[#30363d] before:mr-2 after:flex-1 after:border-t after:border-[#30363d] after:ml-2">VƏ YA</div>
-                <button onclick="loginProvider('google')" class="w-full bg-[#f0f6fc] text-[#0d1117] py-1.5 rounded text-xs font-semibold hover:bg-[#c9d1d9] flex items-center justify-center gap-2"><i class="fa-brands fa-google text-red-500"></i> Google ilə Giriş</button>
-                <button onclick="loginProvider('github')" class="w-full bg-[#21262d] text-[#f0f6fc] border border-[#30363d] py-1.5 rounded text-xs font-semibold hover:bg-[#30363d] flex items-center justify-center gap-2"><i class="fa-brands fa-github"></i> GitHub ilə Giriş</button>
+                <button onclick="loginWithEmail()" class="w-full btn-primary py-2">Daxil Ol</button>
+                <button onclick="loginProvider('google')" class="w-full bg-[#f0f6fc] text-[#0d1117] py-1.5 rounded text-xs font-semibold hover:bg-[#c9d1d9] flex items-center justify-center gap-2"><i class="fa-brands fa-google text-red-500"></i> Google</button>
+                <button onclick="loginProvider('github')" class="w-full bg-[#21262d] text-[#f0f6fc] border border-[#30363d] py-1.5 rounded text-xs font-semibold hover:bg-[#30363d] flex items-center justify-center gap-2"><i class="fa-brands fa-github"></i> GitHub</button>
             </div>
             <div id="subtab-register" class="hidden space-y-3 text-xs">
-                <input type="text" id="register-username" placeholder="İstifadəçi adı (örnək: elvin_01)" class="form-input-classic">
+                <input type="text" id="register-username" placeholder="İstifadəçi adı" class="form-input-classic">
                 <input type="email" id="register-email" placeholder="E-mail" class="form-input-classic">
                 <input type="password" id="register-password" placeholder="Şifrə" class="form-input-classic">
-                <button onclick="registerWithEmail()" class="w-full btn-primary py-2 font-semibold">Hesabı Yarat</button>
+                <button onclick="registerWithEmail()" class="w-full btn-primary py-2">Qeydiyyatı Tamamla</button>
             </div>
         </div>
     </div>
@@ -171,7 +160,6 @@
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, deleteDoc, updateDoc, doc, query, orderBy, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Özlərinə məxsus konfiqurasiyaları bura daxil et
         const firebaseConfig = {
   apiKey: "AIzaSyCZKZFfWsgpABjerVezvxKvyQsGh_RE4P0",
   authDomain: "forum-66bf1.firebaseapp.com",
@@ -190,145 +178,230 @@
         let currentUser = null;
         let userForumData = null;
 
-        // AUTH KODLARI
-        window.registerWithEmail = async () => {
-            const username = document.getElementById('register-username').value.trim().toLowerCase();
-            const email = document.getElementById('register-email').value.trim();
-            const password = document.getElementById('register-password').value;
+        // DƏYİŞƏN ROUTER SİSTEMİ (Arama motorları və fərdi linklər üçün)
+        async function handleRouting() {
+            const hash = window.location.hash || '#home';
+            document.querySelectorAll('.router-view').forEach(el => el.classList.add('hidden'));
 
-            if(!username || !email || !password) return alert("Xanaları doldurun!");
-            if(username.includes(" ")) return alert("İstifadəçi adında boşluq olmaz!");
+            if (hash === '#home') {
+                document.getElementById('view-home').classList.remove('view-home', 'hidden');
+                loadPosts();
+            } else if (hash === '#about') {
+                document.getElementById('view-about').classList.remove('hidden');
+            } else if (hash === '#admin') {
+                document.getElementById('view-admin').classList.remove('hidden');
+            } else if (hash.startsWith('#post-')) {
+                document.getElementById('view-single-post').classList.remove('hidden');
+                const postId = hash.replace('#post-', '');
+                renderSinglePostPage(postId);
+            }
+        }
+        window.addEventListener('hashchange', handleRouting);
 
-            try {
-                const userRef = doc(db, "usernames", username);
-                const userSnap = await getDoc(userRef);
-                if(userSnap.exists()) return alert("Bu ad artıq alınıb!");
+        // ANA SƏHİFƏDƏ YALNIZ BAŞLIQLARI VƏ TEQLƏRİ GÖSTƏRMƏK
+        window.loadPosts = async () => {
+            const container = document.getElementById('forum-posts');
+            container.innerHTML = '';
+            const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+            const snap = await getDocs(q);
 
-                const credential = await createUserWithEmailAndPassword(auth, email, password);
-                await setDoc(doc(db, "usernames", username), { uid: credential.user.uid, email: email });
-                await setDoc(doc(db, "users", credential.user.uid), { username: username, email: email });
+            if(snap.empty) {
+                container.innerHTML = `<div class="forum-box text-center text-[#8b949e] italic">Hələ heç bir mövzu yoxdur.</div>`;
+                return;
+            }
 
-                closeAuthModal();
-            } catch (err) { alert(err.message); }
-        };
-
-        window.loginWithEmail = async () => {
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                closeAuthModal();
-            } catch (err) { alert(err.message); }
-        };
-
-        window.loginProvider = async (type) => {
-            let provider = type === 'google' ? new GoogleAuthProvider() : new GithubAuthProvider();
-            try {
-                const res = await signInWithPopup(auth, provider);
-                const user = res.user;
-                const userDoc = await getDoc(doc(db, "users", user.uid));
-                if(!userDoc.exists()) {
-                    const emailFb = user.email || "";
-                    const autoName = emailFb ? emailFb.split('@')[0].replace(/[^a-zA-Z0-9]/g, "") : "user_" + user.uid.substring(0,5);
-                    await setDoc(doc(db, "users", user.uid), { username: autoName, email: emailFb });
-                    await setDoc(doc(db, "usernames", autoName), { uid: user.uid, email: emailFb });
+            snap.forEach((docSnap) => {
+                const post = docSnap.data();
+                const postId = docSnap.id;
+                
+                let tagsHtml = '';
+                if(post.tags) {
+                    post.tags.forEach(t => { tagsHtml += `<span class="tag-badge">#${t}</span> `; });
                 }
-                closeAuthModal();
-            } catch (err) { alert(err.message); }
+
+                const div = document.createElement('div');
+                div.className = "forum-card-row p-4 flex justify-between items-center flex-wrap gap-2";
+                div.innerHTML = `
+                    <div>
+                        <span class="cat-badge mr-2">${post.category || 'Ümumi'}</span>
+                        <h2 class="inline font-semibold text-base"><a href="#post-${postId}" class="text-[#58a6ff] hover:underline">${post.title}</a></h2>
+                        <div class="text-xs text-[#8b949e] mt-1">Yazan: @${post.authorUsername} | 💬 Cavablar üçün mövzuya daxil olun</div>
+                        <div class="mt-2 flex gap-1">${tagsHtml}</div>
+                    </div>
+                    <div class="text-xs bg-[#21262d] px-3 py-1 rounded text-[#c9d1d9]">▲ Səs: ${post.upvotes || 0}</div>
+                `;
+                container.appendChild(div);
+            });
         };
 
-        window.logout = () => signOut(auth);
+        // FƏRDİ MÖVZU SƏHİFƏSİNİN STRUKTURU (Daxilinə girəndə görünən hissə)
+        async function renderSinglePostPage(postId) {
+            const container = document.getElementById('single-post-container');
+            container.innerHTML = '<p class="text-xs text-[#8b949e] italic">Mövzu yüklənir...</p>';
 
-        // İSTİFADƏÇİ ADINI DƏYİŞMƏ (MƏNTİQİ)
+            try {
+                const postDoc = await getDoc(doc(db, "posts", postId));
+                if(!postDoc.exists()) {
+                    container.innerHTML = '<p class="text-xs text-red-400">Mövzu tapılmadı və ya silinib.</p>';
+                    return;
+                }
+                const post = postDoc.data();
+                const isAdmin = currentUser && currentUser.email === ADMIN_EMAIL;
+
+                let tagsHtml = '';
+                if(post.tags) { post.tags.forEach(t => { tagsHtml += `<span class="tag-badge">#${t}</span> `; }); }
+
+                container.innerHTML = `
+                    <article class="forum-box space-y-4">
+                        <div class="flex justify-between items-start border-b border-[#30363d] pb-2 flex-wrap gap-2">
+                            <div>
+                                <span class="cat-badge">${post.category || 'Ümumi'}</span>
+                                <h2 class="text-xl font-bold text-[#f0f6fc] mt-1">${post.title}</h2>
+                                <span class="text-xs text-[#8b949e]">Müəllif: <strong class="text-[#58a6ff]">@${post.authorUsername}</strong></span>
+                            </div>
+                            <div class="flex gap-2 text-xs">
+                                <button onclick="upvotePost('${postId}')" class="bg-[#21262d] border border-[#30363d] text-[#c9d1d9] px-2.5 py-1 rounded">▲ Səs: ${post.upvotes || 0}</button>
+                                <button onclick="reportPost('${postId}', '${post.title}')" class="bg-transparent border border-[#30363d] text-[#ff7b72] px-2.5 py-1 rounded">⚠️ Şikayət</button>
+                                ${isAdmin ? `<button onclick="deletePost('${postId}')" class="bg-[#f85149] text-white px-2.5 py-1 rounded">SİL</button>` : ''}
+                            </div>
+                        </div>
+                        <p class="text-sm text-[#c9d1d9] leading-relaxed whitespace-pre-wrap">${post.content}</p>
+                        <div class="flex flex-wrap gap-1">${tagsHtml}</div>
+                        
+                        <div class="bg-[#0d1117] p-4 border border-[#30363d] rounded-md mt-4">
+                            <h4 class="text-xs font-semibold text-[#f0f6fc] mb-3">Müzakirə və Cavablar</h4>
+                            <div id="comments-${postId}" class="space-y-2 text-xs"></div>
+                            <div class="flex mt-3 ${currentUser ? '' : 'hidden'}">
+                                <input type="text" id="reply-input-${postId}" placeholder="Fikrinizi bildirin..." class="form-input-classic py-1 text-xs">
+                                <button onclick="addComment('${postId}')" class="btn-primary px-4 text-xs ml-2">Cavabla</button>
+                            </div>
+                        </div>
+                    </article>
+                `;
+                loadComments(postId);
+            } catch(e) { container.innerHTML = '<p class="text-xs text-red-400">Xəta baş verdi.</p>'; }
+        }
+
+        // CAVABLAR (COMMENTS) MENECMENTİ
+        window.loadComments = async (postId) => {
+            const area = document.getElementById(`comments-${postId}`);
+            if(!area) return; area.innerHTML = '';
+            const q = query(collection(db, `posts/${postId}/comments`), orderBy("createdAt", "asc"));
+            const snap = await getDocs(q);
+            snap.forEach(cSnap => {
+                const comment = cSnap.data();
+                area.innerHTML += `<div class="py-1.5 border-b border-[#21262d] last:border-0"><strong class="text-[#d29922]">@${comment.authorUsername}:</strong> <span class="text-[#c9d1d9]">${comment.text}</span></div>`;
+            });
+        };
+
+        window.addComment = async (postId) => {
+            const input = document.getElementById(`reply-input-${postId}`);
+            const text = input.value.trim();
+            if(!text) return;
+            await addDoc(collection(db, `posts/${postId}/comments`), { text: text, authorUsername: userForumData.username, createdAt: new Date() });
+            input.value = '';
+            loadComments(postId);
+        };
+
+        // MÖVZU YARATMA (TAGS DAXİL)
+        window.createPost = async () => {
+            const title = document.getElementById('post-title').value.trim();
+            const content = document.getElementById('post-content').value.trim();
+            const category = document.getElementById('post-category').value;
+            const tagsRaw = document.getElementById('post-tags').value.trim();
+            if(!title || !content) return alert("Xanaları doldurun!");
+
+            const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(t => t.length > 0) : [];
+
+            try {
+                await addDoc(collection(db, "posts"), {
+                    title: title, content: content, category: category, tags: tags,
+                    authorUsername: userForumData.username, email: currentUser.email || "",
+                    createdAt: new Date(), upvotes: 0, votedUsers: []
+                });
+                window.location.hash = '#home';
+            } catch (e) { alert(e.message); }
+        };
+
+        // SƏS VERMƏ
+        window.upvotePost = async (id) => {
+            if(!currentUser) return alert("Giriş edin!");
+            const postRef = doc(db, "posts", id);
+            const postDoc = await getDoc(postRef);
+            const data = postDoc.data();
+            let votedUsers = data.votedUsers || [];
+            if(votedUsers.includes(currentUser.uid)) return alert("Artıq səs vermisiniz!");
+            votedUsers.push(currentUser.uid);
+            await updateDoc(postRef, { upvotes: (data.upvotes || 0) + 1, votedUsers: votedUsers });
+            renderSinglePostPage(id);
+        };
+
+        // PROFILE / USERNAME DƏYİŞMƏ
         window.changeUsername = async () => {
             const newName = document.getElementById('new-username-input').value.trim().toLowerCase();
-            if(!newName || newName.includes(" ")) return alert("Düzgün istifadəçi adı daxil edin!");
-            if(newName === userForumData.username) return alert("Bu elə cari adınızdır!");
-
+            if(!newName || newName.includes(" ")) return alert("Düzgün ad yazın!");
             try {
                 const checkSnap = await getDoc(doc(db, "usernames", newName));
-                if(checkSnap.exists()) return alert("Bu istifadəçi adı artıq məşğuldur!");
+                if(checkSnap.exists()) return alert("Bu ad artıq mövcuddur!");
 
                 const oldName = userForumData.username;
-                const uid = currentUser.uid;
-
-                await setDoc(doc(db, "usernames", newName), { uid: uid, email: currentUser.email || "" });
-                await updateDoc(doc(db, "users", uid), { username: newName });
+                await setDoc(doc(db, "usernames", newName), { uid: currentUser.uid, email: currentUser.email || "" });
+                await updateDoc(doc(db, "users", currentUser.uid), { username: newName });
                 await deleteDoc(doc(db, "usernames", oldName));
 
-                alert("İstifadəçi adınız uğurla dəyişdirildi!");
+                alert("Ad dəyişdirildi!");
                 window.location.reload();
-            } catch (err) { alert("Xəta: " + err.message); }
-        };
-
-        // HESABI BİR DOXUNUŞLA TAMAMİLƏ SİLMƏK (USER ÖZÜ)
-        window.deleteOwnAccount = async () => {
-            if(!confirm("Hesabınızı və profilinizi verilənlər bazasından tamamilə silmək istədiyinizə əminsiniz?")) return;
-            try {
-                const uid = currentUser.uid;
-                const uname = userForumData.username;
-
-                await deleteDoc(doc(db, "users", uid));
-                await deleteDoc(doc(db, "usernames", uname));
-                
-                await signOut(auth);
-                alert("Hesabınız verilənlər bazasından təmizləndi.");
-                window.location.reload();
-            } catch(err) { alert(err.message); }
-        };
-
-        // ADMİNİN İSTİFADƏÇİNİ TAM SİLMƏSİ (DATABASE-DƏN)
-        window.adminDeleteTargetUser = async () => {
-            const tUid = document.getElementById('admin-search-uid').value.trim();
-            const tUname = document.getElementById('admin-search-username').value.trim().toLowerCase();
-            if(!tUid || !tUname) return alert("UID və İstifadəçi adını tam yazın!");
-
-            if(confirm(`@${tUname} adlı istifadəçini bazadan tamamilə silmək istəyirsiniz?`)) {
-                try {
-                    await deleteDoc(doc(db, "users", tUid));
-                    await deleteDoc(doc(db, "usernames", tUname));
-                    alert("İstifadəçi uğurla silindi.");
-                    document.getElementById('admin-search-uid').value = '';
-                    document.getElementById('admin-search-username').value = '';
-                } catch(err) { alert(err.message); }
-            }
-        };
-
-        // ADMİN KATEQORİYA YARATMA
-        window.adminCreateCategory = async () => {
-            const catName = document.getElementById('new-cat-name').value.trim();
-            if(!catName) return;
-            try {
-                await addDoc(collection(db, "categories"), { name: catName });
-                document.getElementById('new-cat-name').value = '';
-                loadCategories();
             } catch(e) { alert(e.message); }
         };
 
-        // KATEQORİYALARI YÜKLƏMƏ
+        // HESABI BAZADAN TAM SİLMƏK
+        window.deleteOwnAccount = async () => {
+            if(!confirm("Hesabınızı verilənlər bazasından tamamilə silmək istəyirsiniz?")) return;
+            try {
+                await deleteDoc(doc(db, "users", currentUser.uid));
+                await deleteDoc(doc(db, "usernames", userForumData.username));
+                await signOut(auth);
+                window.location.reload();
+            } catch(e) { alert(e.message); }
+        };
+
+        // ADMİN PANELİ: İSTİFADƏÇİNİ SİLMƏK
+        window.adminDeleteTargetUser = async () => {
+            const tUid = document.getElementById('admin-search-uid').value.trim();
+            const tUname = document.getElementById('admin-search-username').value.trim().toLowerCase();
+            if(!tUid || !tUname) return alert("Məlumatları tam doldurun!");
+            if(confirm(`@${tUname} tamamilə silinsin?`)) {
+                await deleteDoc(doc(db, "users", tUid));
+                await deleteDoc(doc(db, "usernames", tUname));
+                alert("İstifadəçi bazadan silindi.");
+            }
+        };
+
+        // KATEQORİYA MENECMENTİ
+        window.adminCreateCategory = async () => {
+            const name = document.getElementById('new-cat-name').value.trim();
+            if(!name) return;
+            await addDoc(collection(db, "categories"), { name: name });
+            document.getElementById('new-cat-name').value = '';
+            loadCategories();
+        };
+
         async function loadCategories() {
             const selectEl = document.getElementById('post-category');
             const adminList = document.getElementById('admin-categories-list');
-            if(!selectEl) return;
-            selectEl.innerHTML = '';
-            if(adminList) adminList.innerHTML = '';
-
+            selectEl.innerHTML = ''; if(adminList) adminList.innerHTML = '';
             const snap = await getDocs(collection(db, "categories"));
             if(snap.empty) {
-                // Heç nə yoxdursa default kateqoriyalar əlavə etmək üçün seçim yaradaq
-                selectEl.innerHTML = '<option value="Ümumi">Ümumi Müzakirələr</option>';
-                return;
+                selectEl.innerHTML = '<option value="Ümumi">Ümumi</option>'; return;
             }
             snap.forEach(cDoc => {
                 const c = cDoc.data().name;
                 selectEl.innerHTML += `<option value="${c}">${c}</option>`;
-                if(adminList) {
-                    adminList.innerHTML += `<span class="tag-badge bg-[#21262d]">${c}</span>`;
-                }
+                if(adminList) adminList.innerHTML += `<span class="tag-badge">${c}</span>`;
             });
         }
 
-        // AUTH DURUMU İZLƏYİCİ
+        // AUTH STATUS SƏS YAZICISI
         onAuthStateChanged(auth, async (user) => {
             currentUser = user;
             if(user) {
@@ -336,7 +409,6 @@
                 document.getElementById('user-panel').classList.remove('hidden');
                 document.getElementById('post-form-container').classList.remove('hidden');
                 document.getElementById('login-alert-container').classList.add('hidden');
-
                 const uDoc = await getDoc(doc(db, "users", user.uid));
                 if(uDoc.exists()) {
                     userForumData = uDoc.data();
@@ -354,180 +426,67 @@
                 document.getElementById('admin-panel-btn').classList.add('hidden');
             }
             await loadCategories();
-            loadPosts();
+            handleRouting();
         });
 
-        // MÖVZU YARATMA (TEQLƏR VƏ KATEQORİYA İLƏ BİRLİKDƏ)
-        window.createPost = async () => {
-            const title = document.getElementById('post-title').value.trim();
-            const content = document.getElementById('post-content').value.trim();
-            const category = document.getElementById('post-category').value;
-            const tagsRaw = document.getElementById('post-tags').value.trim();
-
-            if(!title || !content) return alert("Başlıq və məzmun mütləqdir!");
-
-            // Teqləri massivə çeviririk (Arama motorları və filterlər oxuya bilsin deyə)
-            const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(t => t.length > 0) : [];
-
+        // AUTH FUNKSİYALARI
+        window.registerWithEmail = async () => {
+            const username = document.getElementById('register-username').value.trim().toLowerCase();
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+            if(username.includes(" ")) return alert("Boşluq olmaz!");
             try {
-                await addDoc(collection(db, "posts"), {
-                    title: title,
-                    content: content,
-                    category: category,
-                    tags: tags,
-                    authorUsername: userForumData.username,
-                    email: currentUser.email || "",
-                    createdAt: new Date(),
-                    upvotes: 0,
-                    votedUsers: []
-                });
-                document.getElementById('post-title').value = '';
-                document.getElementById('post-content').value = '';
-                document.getElementById('post-tags').value = '';
-                loadPosts();
-            } catch (e) { alert(e.message); }
+                const check = await getDoc(doc(db, "usernames", username));
+                if(check.exists()) return alert("Ad məşğuldur!");
+                const res = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "usernames", username), { uid: res.user.uid, email: email });
+                await setDoc(doc(db, "users", res.user.uid), { username: username, email: email });
+                closeAuthModal();
+            } catch(e) { alert(e.message); }
         };
 
-        // MÖVZULARI EKRANA ÇIXARMA (SEO VƏ ARAMA MOTORU UYUMLU SEMANTİK STRUKTURDA)
-        window.loadPosts = async () => {
-            const container = document.getElementById('forum-posts');
-            container.innerHTML = '';
-            
-            const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-            const snap = await getDocs(q);
+        window.loginWithEmail = async () => {
+            try {
+                await signInWithEmailAndPassword(auth, document.getElementById('login-email').value.trim(), document.getElementById('login-password').value);
+                closeAuthModal();
+            } catch(e) { alert(e.message); }
+        };
 
-            if(snap.empty) {
-                container.innerHTML = `<div class="forum-box text-center text-[#8b949e] italic">Hələ heç bir mövzu yoxdur.</div>`;
-                return;
-            }
-
-            snap.forEach((docSnap) => {
-                const post = docSnap.data();
-                const postId = docSnap.id;
-                const isAdmin = currentUser && currentUser.email === ADMIN_EMAIL;
-                
-                // Teqlərin html strukturunu hazırlayırıq
-                let tagsHtml = '';
-                if(post.tags && post.tags.length > 0) {
-                    post.tags.forEach(t => { tagsHtml += `<span class="tag-badge">#${t}</span> `; });
+        window.loginProvider = async (type) => {
+            let p = type === 'google' ? new GoogleAuthProvider() : new GithubAuthProvider();
+            try {
+                const res = await signInWithPopup(auth, p);
+                const uDoc = await getDoc(doc(db, "users", res.user.uid));
+                if(!uDoc.exists()) {
+                    const email = res.user.email || "";
+                    const name = email ? email.split('@')[0].replace(/[^a-zA-Z0-9]/g, "") : "user_" + res.user.uid.substring(0,5);
+                    await setDoc(doc(db, "users", res.user.uid), { username: name, email: email });
+                    await setDoc(doc(db, "usernames", name), { uid: res.user.uid, email: email });
                 }
-
-                // Arama motorları (Google botları) tərəfindən indekslənməni asanlaşdırmaq üçün <article> strukturundan istifadə edirik
-                const article = document.createElement('article');
-                article.className = "forum-card-row p-4 flex flex-col space-y-3";
-                article.innerHTML = `
-                    <div class="flex justify-between items-start border-b border-[#30363d] pb-2 flex-wrap gap-2">
-                        <div>
-                            <span class="cat-badge mr-2">${post.category || 'Ümumi'}</span>
-                            <h2 class="inline text-[#f0f6fc] font-semibold text-base">${post.title}</h2>
-                            <span class="text-xs text-[#8b949e] block md:inline md:ml-3">Müəllif: <strong class="text-[#58a6ff]">@${post.authorUsername}</strong></span>
-                        </div>
-                        <div class="flex space-x-2 text-xs">
-                            <button onclick="upvotePost('${postId}')" class="bg-[#21262d] border border-[#30363d] text-[#c9d1d9] px-2.5 py-1 rounded hover:bg-[#30363d]">▲ Səs: ${post.upvotes || 0}</button>
-                            <button onclick="reportPost('${postId}', '${post.title}')" class="bg-transparent border border-[#30363d] text-[#ff7b72] px-2.5 py-1 rounded hover:bg-red-900/20">⚠️ Şikayət</button>
-                            ${isAdmin ? `<button onclick="deletePost('${postId}')" class="bg-[#f85149] text-white px-2.5 py-1 rounded text-[11px]">SİL</button>` : ''}
-                        </div>
-                    </div>
-                    <p class="text-sm text-[#c9d1d9] leading-relaxed py-1 whitespace-pre-wrap">${post.content}</p>
-                    
-                    <div class="flex flex-wrap gap-1 items-center py-1">
-                        ${tagsHtml}
-                    </div>
-
-                    <div class="bg-[#0d1117] p-3 border border-[#30363d] rounded-md">
-                        <div id="comments-${postId}" class="space-y-2 text-xs text-[#8b949e]"></div>
-                        <div class="flex mt-3 ${currentUser ? '' : 'hidden'}">
-                            <input type="text" id="reply-input-${postId}" placeholder="Cavab yazın..." class="form-input-classic py-1 text-xs">
-                            <button onclick="addComment('${postId}')" class="btn-primary px-4 text-xs ml-2">Göndər</button>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(article);
-                loadComments(postId);
-            });
+                closeAuthModal();
+            } catch(e) { alert(e.message); }
         };
 
-        async function loadComments(postId) {
-            const commentArea = document.getElementById(`comments-${postId}`);
-            commentArea.innerHTML = '';
-            const q = query(collection(db, `posts/${postId}/comments`), orderBy("createdAt", "asc"));
-            const snap = await getDocs(q);
-            snap.forEach(cSnap => {
-                const comment = cSnap.data();
-                commentArea.innerHTML += `<div class="py-1 border-b border-[#21262d] last:border-0"><strong class="text-[#d29922]">@${comment.authorUsername}:</strong> <span class="text-[#c9d1d9]">${comment.text}</span></div>`;
-            });
-        }
-
-        window.addComment = async (postId) => {
-            const input = document.getElementById(`reply-input-${postId}`);
-            const text = input.value.trim();
-            if(!text) return;
-            await addDoc(collection(db, `posts/${postId}/comments`), { text: text, authorUsername: userForumData.username, createdAt: new Date() });
-            input.value = '';
-            loadComments(postId);
-        };
-
-        window.upvotePost = async (id) => {
-            if(!currentUser) return alert("Səs vermək üçün giriş edin!");
-            const postRef = doc(db, "posts", id);
-            const postDoc = await getDoc(postRef);
-            const data = postDoc.data();
-            let votedUsers = data.votedUsers || [];
-            if(votedUsers.includes(currentUser.uid)) return alert("Artıq səs vermisiniz!");
-            votedUsers.push(currentUser.uid);
-            await updateDoc(postRef, { upvotes: (data.upvotes || 0) + 1, votedUsers: votedUsers });
-            loadPosts();
-        };
-
-        window.reportPost = async (id, title) => {
-            if(!currentUser) return alert("Giriş lazımdır!");
-            const reason = prompt("Şikayət səbəbini yazın:");
-            if(!reason) return;
-            await addDoc(collection(db, "reports"), { postId: id, postTitle: title, reason: reason, createdAt: new Date() });
-            alert("Şikayət göndərildi.");
-        };
-
-        async function loadReports() {
-            const container = document.getElementById('reports-container');
-            if(!container) return; container.innerHTML = '';
-            const snap = await getDocs(collection(db, "reports"));
-            snap.forEach(dSnap => {
-                const rep = dSnap.data();
-                container.innerHTML += `<div class="forum-card-row p-2 text-xs flex justify-between items-center"><div><strong>${rep.postTitle}:</strong> ${rep.reason}</div><button onclick="deleteReport('${dSnap.id}')" class="text-red-400">[Sil]</button></div>`;
-            });
-        }
-
+        window.logout = () => signOut(auth);
+        window.deletePost = async (id) => { if(confirm("Mövzunu silmək?")) { await deleteDoc(doc(db, "posts", id)); window.location.hash = '#home'; } };
+        window.reportPost = async (id, title) => { const reason = prompt("Səbəb:"); if(reason) await addDoc(collection(db, "reports"), { postId: id, postTitle: title, reason: reason }); };
+        async function loadReports() { const c = document.getElementById('reports-container'); if(!c) return; c.innerHTML = ''; const snap = await getDocs(collection(db, "reports")); snap.forEach(d => { c.innerHTML += `<div class="forum-card-row p-2 text-xs flex justify-between"><div>${d.data().postTitle}: ${d.data().reason}</div><button onclick="deleteReport('${d.id}')" class="text-red-400">[Sil]</button></div>`; }); }
         window.deleteReport = async (id) => { await deleteDoc(doc(db, "reports", id)); loadReports(); };
-        window.deletePost = async (id) => { if(confirm("Mövzunu silmək istəyirsiniz?")) { await deleteDoc(doc(db, "posts", id)); loadPosts(); } };
     </script>
 
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-        }
-        function toggleAuthModal(subTab = 'login') {
-            document.getElementById('auth-modal').classList.remove('hidden');
-            switchAuthSubTab(subTab);
-        }
+        function toggleAuthModal(tab = 'login') { document.getElementById('auth-modal').classList.remove('hidden'); switchAuthSubTab(tab); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
         function toggleProfileModal() { document.getElementById('profile-modal').classList.toggle('hidden'); }
-        
         function switchAuthSubTab(type) {
-            const btnLogin = document.getElementById('tab-btn-login');
-            const btnRegister = document.getElementById('tab-btn-register');
-            const subLogin = document.getElementById('subtab-login');
-            const subRegister = document.getElementById('subtab-register');
+            const l = document.getElementById('tab-btn-login'); const r = document.getElementById('tab-btn-register');
+            const sl = document.getElementById('subtab-login'); const sr = document.getElementById('subtab-register');
             if(type === 'login') {
-                btnLogin.className = "flex-1 py-2 text-center forum-header-bar rounded-t-md";
-                btnRegister.className = "flex-1 py-2 text-center bg-transparent text-[#8b949e]";
-                subLogin.classList.remove('hidden');
-                subRegister.classList.add('hidden');
+                l.className = "flex-1 py-2 text-center forum-header-bar rounded-t-md"; r.className = "flex-1 py-2 text-center bg-transparent text-[#8b949e]";
+                sl.classList.remove('hidden'); sr.classList.add('hidden');
             } else {
-                btnRegister.className = "flex-1 py-2 text-center forum-header-bar rounded-t-md";
-                btnLogin.className = "flex-1 py-2 text-center bg-transparent text-[#8b949e]";
-                subRegister.classList.remove('hidden');
-                subLogin.classList.add('hidden');
+                r.className = "flex-1 py-2 text-center forum-header-bar rounded-t-md"; l.className = "flex-1 py-2 text-center bg-transparent text-[#8b949e]";
+                sr.classList.remove('hidden'); sl.classList.add('hidden');
             }
         }
     </script>
