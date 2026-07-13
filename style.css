@@ -1,109 +1,116 @@
-/* --- KLASSİK NOSTALJİK FORUM RƏNGLƏRİ VƏ ŞRİFTLƏRİ --- */
+/* --- ƏSL KLASSİK V_BULLETIN / IPB FORUM STİLİ (SARIMTIL/KREM) --- */
 body {
-    background-color: #0d1a26; /* Tünd göy-boz klassik fon */
-    color: #d1d9e0;
-    font-family: "Tahoma", "Verdana", "Geneva", sans-serif;
-    font-size: 13px;
-    line-height: 1.4;
+    background-color: #f4ecd8; /* Parşament / Sarımbıl krem fon */
+    color: #2b2b2b;
+    font-family: "Tahoma", "Verdana", "Arial", sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 10px;
 }
 
-/* --- FORUMUN GRADIENT BAŞLIQLARI (vBulletin Stili) --- */
+/* --- FORUM BAŞLIQLARI VƏ GRADIENT CƏDVƏLLƏR (KLASSİK QƏHVƏYİ/KREM) --- */
 .forum-table-header {
-    background: linear-gradient(to bottom, #294e7a 0%, #163255 100%);
-    border: 1px solid #3b6998;
-    border-bottom: 2px solid #0f233c;
+    background: linear-gradient(to bottom, #7e5c3e 0%, #5c4028 100%); /* Klassik qəhvəyi forum başlığı */
+    border: 1px solid #4a331f;
     color: #ffffff;
     font-weight: bold;
+    font-size: 13px;
     text-shadow: 1px 1px 1px #000000;
     padding: 6px 10px;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* --- KATEQORİYA VƏ ƏSAS QUTULAR --- */
+/* --- KATEQORİYA VƏ ƏSAS QUTULAR (KREM ALTLIQ) --- */
 .forum-category-box {
-    background-color: #1a304a;
-    border: 1px solid #2b4865;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    background-color: #eaddc3; /* Daha tünd sarımtıl-krem */
+    border: 1px solid #bfa883;
+    padding: 8px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 /* --- FORUM SƏTİRLƏRİ (CƏDVƏL GÖRÜNÜŞÜ) --- */
 .forum-row {
-    background-color: #223c5e;
-    border: 1px solid #1a304a;
-    transition: background-color 0.15s ease;
+    background-color: #fcf8ee; /* Açıq krem */
+    border: 1px solid #d3c4a8;
+    padding: 8px;
 }
 
 /* Sətirlərin növbəli rənglənməsi (Zebra effekti) */
 .forum-row:nth-child(even) {
-    background-color: #1c3352;
+    background-color: #f5eedc; /* Bir ton tünd krem */
 }
 
-/* Sətirin üzərinə gələndə parıldama effekti */
+/* Sətirin üzərinə gələndə aktivləşən rəng (Hover) */
 .forum-row:hover {
-    background-color: #27466c;
-    border-color: #416792;
+    background-color: #fffdec;
+    border-color: #bfa883;
 }
 
-/* --- KLASSİK FORUM DÜYMƏLƏRİ --- */
-.forum-btn {
-    background: linear-gradient(to bottom, #4a75a0 0%, #28486b 100%);
-    border: 1px solid #1a304a;
+/* --- NOSTALJİK FORUM MENYUSU DÜYMƏLƏRİ (YUXARI PANEL) --- */
+.forum-nav-link {
+    display: inline-block;
+    background-color: #eaddc3;
+    border: 1px solid #bfa883;
+    color: #5c4028;
+    padding: 3px 8px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 11px;
+}
+
+.forum-nav-link:hover {
+    background-color: #5c4028;
     color: #ffffff;
+    border-color: #4a331f;
+    text-decoration: none;
+}
+
+/* --- KLASSİK STANDART DÜYMƏLƏR --- */
+.forum-btn {
+    background: linear-gradient(to bottom, #f9f5eb 0%, #dcd1b4 100%);
+    border: 1px solid #a8997a;
+    color: #332211;
     font-size: 11px;
     font-weight: bold;
-    text-transform: uppercase;
+    padding: 4px 10px;
     cursor: pointer;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
 .forum-btn:hover {
-    background: linear-gradient(to bottom, #5785b5 0%, #315680 100%);
-    border-color: #2b4865;
+    background: linear-gradient(to bottom, #ffffff 0%, #e5dbc2 100%);
+    border-color: #8c7e62;
 }
 
-.forum-btn:active {
-    background: #1c3352;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* --- GİRİŞ VƏ MƏTN INPUTLARI --- */
+/* --- INPUTLAR VƏ TEXTAREA --- */
 .input-classic {
-    background-color: #09131d;
-    border: 1px solid #3b6998;
-    color: #ffffff;
-    font-family: "Courier New", monospace; /* Kod havası vermək üçün */
+    background-color: #ffffff;
+    border: 1px solid #a8997a;
+    color: #000000;
     font-size: 12px;
-    padding: 4px 6px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+    padding: 4px;
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 .input-classic:focus {
-    border-color: #6da1d6;
-    background-color: #0c1b2b;
+    border-color: #5c4028;
+    background-color: #ffffee;
     outline: none;
 }
 
-/* --- MENTION (@ETİKETLƏMƏ) EFFEKTİ --- */
+/* --- MENTION (@ETİKETLƏMƏ) --- */
 .mention {
-    background-color: #b32424;
-    color: #ffffff;
+    background-color: #ffe699; /* Sarımtıl vurğu rəngi */
+    color: #a65d00;
     font-weight: bold;
     padding: 1px 4px;
-    border: 1px solid #d93838;
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+    border: 1px solid #ffcc33;
     font-size: 11px;
 }
 
-.mention:hover {
-    background-color: #d93838;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-/* --- MODAL PƏNCƏRƏLƏRİN VİNTAJ GÖRÜNÜŞÜ --- */
+/* --- MODAL PƏNCƏRƏLƏR --- */
 #auth-modal > div, #rules-modal > div {
-    background-color: #14263b;
-    border: 3px double #3b6998; /* Köhnə üslub qoşa xətt */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+    background-color: #f4ecd8;
+    border: 3px double #5c4028; /* Klassik qəhvəyi qoşa xətt border */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 }
