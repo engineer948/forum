@@ -1,0 +1,111 @@
+/* Custom Modern Developer Forum Theme */
+body { 
+    background-color: #0d1117; 
+    color: #c9d1d9; 
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Forum Kartları və Qutuları */
+.forum-box { 
+    background-color: #161b22; 
+    border: 1px solid #30363d; 
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.forum-header-bar { 
+    background-color: #21262d; 
+    border: 1px solid #30363d; 
+    color: #f0f6fc; 
+    border-radius: 6px 6px 0 0;
+    padding: 12px;
+}
+
+.forum-card-row { 
+    background-color: #161b22; 
+    border: 1px solid #30363d; 
+    border-radius: 6px;
+    transition: border-color 0.2s, transform 0.1s;
+}
+
+.forum-card-row:hover {
+    border-color: #58a6ff;
+}
+
+/* Düymələr (Classic Tech Style) */
+.btn-primary { 
+    background-color: #238636; 
+    border: 1px solid rgba(240, 246, 252, 0.1); 
+    color: #ffffff; 
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover { 
+    background-color: #2ea043;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background-color: #21262d;
+    border: 1px solid #f85149;
+    color: #ff7b72;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    background-color: #f85149;
+    color: #ffffff;
+}
+
+/* Giriş elementləri */
+.form-input-classic { 
+    background-color: #0d1117; 
+    border: 1px solid #30363d; 
+    color: #c9d1d9; 
+    padding: 8px 12px; 
+    font-size: 14px; 
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-input-classic:focus { 
+    border-color: #58a6ff; 
+    outline: none; 
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+}
+
+/* Teqlər və Kateqoriya Nişanları */
+.tag-badge {
+    background-color: #21262d;
+    color: #58a6ff;
+    border: 1px solid #30363d;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.cat-badge {
+    background-color: rgba(56, 139, 253, 0.15);
+    color: #58a6ff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.mention { 
+    background-color: rgba(248, 81, 73, 0.15); 
+    color: #ff7b72; 
+    padding: 2px 4px; 
+    font-weight: 600; 
+    border-radius: 4px;
+    font-size: 13px;
+}
